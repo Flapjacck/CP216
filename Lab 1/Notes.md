@@ -1,4 +1,4 @@
-# Notes
+# Lab 1 Notes
 
 ## Initialization
 - Set start address to 0x1000.
