@@ -53,9 +53,10 @@ Result:
 - load value at memory address of r3 (Hex: 8) into r1
 - add r1 and r0 (Hex: c | #: 12) and store result in r2
 - load memory address of Total (Hex: 1048) into r3
-- 
+- Store value of r2 (Hex: fffffffc | 12) in memory address of r3
 - subtract r1 from r0 (Hex: 4 | #: 4) and store result in r2
-- 
+- Load memory address of Diff (Hex: 104c) into r3
+- Store value of r2 (Hex: fffffffc | 4) in memory address of r3
 
 ```assembly
 .org 0x1000  // Start at memory location 1000
