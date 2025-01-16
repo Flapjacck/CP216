@@ -96,3 +96,51 @@ Diff:
 ```
 
 ## Error's 3
+
+- load memory address of Vec1 (Hex: 1040) into r0
+- load memory address of Vec2 (Hex: 1050) into r1
+- load value at memory address of r0 (Hex: 1) into r2
+- store value of r2 in memory address of r1 (Fist slot in vec 2)
+- move to next slot in Vec1 (Hex: 1044) and Vec2 (Hex: 1054)
+- load value at memory address of r0 (Hex: 2) into r2
+- store value of r2 in memory address of r1 (Second slot in vec 2)
+- move to next slot in Vec1 (Hex: 1048) and Vec2 (Hex: 1058)
+- load value at memory address of r0 (Hex: 3) into r2
+- store value of r2 in memory address of r1 (Third slot in vec 2)
+- checking the memory locations of Vec2 (Hex: 1050) and Vec1(Hex: 1040) should show 1, 2, 3
+
+```assembly
+.org 0x1000  // Start at memory location 1000
+.text        // Code section
+.global _start
+_start:
+
+// code section | Error: removed dupe code section
+// Copy contents of first element of Vec1 to Vec2
+ldr r0, =Vec1
+ldr r1, =Vec2
+ldr r2, [r0]
+str r2, [r1]
+// Copy contents of second element of Vec1 to Vec2
+add r0, r0, #4	// Error: Increment by 4 to avoid skipping 2nd element
+add r1, r1, #4	// Error: Increment by 4 to avoid skipping 2nd element
+ldr r2, [r0]
+str r2, [r1]
+// Copy contents of second element of Vec1 to Vec2
+add r0, r0, #4 // Error: Increment r0 to avoid skipping 3rd element
+add r1, r1, #4
+ldr r2, [r0]
+str r2, [r1]	// Error: store the value of r2 in mem. address stored in r1 
+// End program
+_stop:
+b _stop
+
+.data // Initialized data section
+Vec1:
+.word 1, 2, 3
+.bss // Uninitialized data section
+Vec2:
+.space 12 // Error: increased vec2 size to hold all elements and changed to space
+
+.end
+```
