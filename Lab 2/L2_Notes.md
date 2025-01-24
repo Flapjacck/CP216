@@ -1,8 +1,6 @@
 # Lab 2 Notes
-
-## Error's 1
-
 **Note**- Use byte size instead of word size for the number display options to make searching memory locations easier.
+## Error's 1
 
 - loads memory address of A (Hex: 1030) into r3
 - loads value at memory address of r3 (Hex: 4) into r0
