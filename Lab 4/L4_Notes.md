@@ -116,3 +116,67 @@ _Data: // End of list address
 
 .end
 ```
+
+## L04_t03.s
+
+- `r2` holds the start address of the list.
+- `r3` holds the end address of the list.
+- `r6` is initialized to the first element (minimum value).
+- `r7` is initialized to the first element (maximum value).
+
+- `r0` temporarily stores each value from the list.
+- Compares each value with the current min (`r6`) and max (`r7`).
+- Updates `r6` and `r7` accordingly.
+- Loop continues until all values are processed.
+
+```assembly
+-------------------------------------------------------
+Finds the minimum and maximum values in the list and 
+stores them in r6 and r7 respectively.
+
+r0: temporary storage of value in list
+r1: temporary storage for comparison
+r2: address of start of list
+r3: address of end of list
+r4: counter for number of values in list
+r5: total bytes in list (precomputed)
+r6: minimum value in list
+r7: maximum value in list
+-------------------------------------------------------
+*/
+
+.org 0x1000  // Start at memory location 1000
+.text        // Code section
+.global _start
+_start:
+
+ldr    r2, =Data    // Load address of start of list
+ldr    r3, =_Data   // Load address of end of list
+ldr    r6, [r2]     // Initialize min to first element
+ldr    r7, [r2]     // Initialize max to first element
+add    r2, r2, #4   // Move to the next element
+
+Loop:
+ldr    r0, [r2], #4 // Read value from address and move to next (r0 = *r2, r2 += 4)
+cmp    r3, r2       // Compare current address with end of list
+beq    _stop        // If at end, stop
+
+cmp    r0, r6       // Compare value with min
+movlt  r6, r0       // If smaller, update min
+
+cmp    r0, r7       // Compare value with max
+movgt  r7, r0       // If greater, update max
+
+b      Loop         // Continue looping
+
+_stop:
+b _stop
+
+.data
+.align
+Data:
+.word   4,5,-9,0,3,0,8,-7,12    // The list of data
+_Data: // End of list address
+
+.end
+```
