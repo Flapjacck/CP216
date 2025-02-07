@@ -2,7 +2,17 @@
 
 ## L05_t01.s
 
--
+- **Code:**
+    - `mov r0, #0`: Initialize total (`r0`) to 0.
+    - `loop:`
+      - `cmp r1, r2`: Compare current address (`r1`) with end address (`r2`).
+      - `beq done`: If `r1 == r2`, exit loop.
+      - `ldr r3, [r1], #4`: Load value from address in `r1` into `r3`, then increment `r1` by 4 bytes.
+      - `add r0, r0, r3`: Add value in `r3` to total (`r0`).
+      - `b loop`: Repeat loop.
+    - `done:`
+      - `mov pc, lr`: Return to caller.
+
 
 ```Assembly
 /*
@@ -40,7 +50,18 @@ Returns:
 */
 
 // your code here
+mov     r0, #0  // Initialize total (r0) to 0
+    
+loop:
+cmp     r1, r2  // Compare current address (r1) with end address (r2)
+beq     done    // If r1 == r2, exit loop
+    
+ldr     r3, [r1], #4  // Load value from address in r1 into r3, then increment r1 by 4 bytes
+add     r0, r0, r3    // Add value in r3 to total (r0)
+b       loop          // Repeat loop
 
+done:
+mov     pc, lr  // Return to caller
 
 .data
 .align
